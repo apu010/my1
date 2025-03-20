@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BD Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .calculator {
+            width: 320px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .calculator h1 {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .output {
+            font-size: 2em;
+            height: 50px;
+            text-align: right;
+            padding: 10px;
+            background-color: #f1f3f5;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .button {
+            font-size: 1.5em;
+        }
+        .btn-custom {
+            background-color: #007bff;
+            color: white;
+        }
+        .btn-custom:hover {
+            background-color: #0056b3;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        .btn-warning {
+            background-color: #ffc107;
+            color: black;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="calculator">
+    <!-- Heading -->
+    <h1>BD Calculator</h1>
+    
+    <!-- Output display -->
+    <div class="output" id="output">0</div>
+    
+    <!-- Calculator buttons -->
+    <div class="row g-2 mt-3">
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('7')">7</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('8')">8</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('9')">9</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-warning w-100 button" onclick="appendToOutput('/')">/</button>
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('4')">4</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('5')">5</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('6')">6</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-warning w-100 button" onclick="appendToOutput('*')">*</button>
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('1')">1</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('2')">2</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('3')">3</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-warning w-100 button" onclick="appendToOutput('-')">-</button>
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('0')">0</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-secondary w-100 button" onclick="appendToOutput('.')">.</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-success w-100 button" onclick="calculateResult()">=</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-warning w-100 button" onclick="appendToOutput('+')">+</button>
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.sqrt(')">√</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.pow(')">x²</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.sin(')">sin</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.cos(')">cos</button>
+        </div>
+    </div>
+    <div class="row g-2 mt-2">
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.tan(')">tan</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.log(')">log</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-info w-100 button" onclick="appendToOutput('Math.PI')">π</button>
+        </div>
+        <div class="col-3">
+            <button class="btn btn-danger w-100 button" onclick="clearOutput()">C</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let outputElement = document.getElementById("output");
+
+    function appendToOutput(value) {
+        // If it's the first number and output is 0, replace it.
+        if (outputElement.innerText === "0" && value !== ".") {
+            outputElement.innerText = value;
+        } else {
+            outputElement.innerText += value;
+        }
+    }
+
+    function calculateResult() {
+        try {
+            // Use eval to evaluate the expression (with safety precautions in real-world apps)
+            outputElement.innerText = eval(outputElement.innerText);
+        } catch (e) {
+            outputElement.innerText = "Error";
+        }
+    }
+
+    function clearOutput() {
+        outputElement.innerText = "0";
+    }
+</script>
+
+</body>
+</html>
